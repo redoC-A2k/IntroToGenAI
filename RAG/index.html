@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+</head>
+<body>
+
+    <h2>Upload a File</h2>
+    <form action="http://127.0.0.1:8000/uploadFile/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>Ask query</h2>
+    <form id="queryForm">
+        <input type="text" id="queryInput" name="query" required>
+        <button type="submit">Ask</button>
+    </form>
+    <div id="responseContainer"></div>
+
+    <script>
+        document.getElementById('queryForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const query = document.getElementById('queryInput').value;
+
+            fetch(`http://127.0.0.1:8000/ask?query=${query}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('responseContainer').innerText = data.response;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script></form>
+
+
+</body>
+</html>
